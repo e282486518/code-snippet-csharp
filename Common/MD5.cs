@@ -60,6 +60,34 @@ namespace CodeSnippet.Common
         }
 
         /// <summary>
+        /// 从文件路径获取MD5值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string GetMD5HashFromFile(string path)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+                {
+                    FileStream file = new FileStream(fileName, FileMode.Open);
+                    byte[] retVal = md5.ComputeHash(file);
+                    file.Close();
+                    for (int i = 0; i < retVal.Length; i++)
+                    {
+                        sb.Append(retVal[i].ToString("x2"));
+                    }
+                }
+                return sb.ToString();
+             }
+             catch (Exception ex)
+             {
+                 throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
+             }
+        }
+
+        /// <summary>
         /// 验证MD5值。
         /// </summary>
         /// <param name="str"></param>
